@@ -33,6 +33,7 @@ public class Movie {
     private String production;
     private String website;
     private String response;
+    private String trailerSource;
 
     public Movie() {
     }
@@ -236,4 +237,8 @@ public class Movie {
     public void setResponse(String response) {
         this.response = response;
     }
+
+    public void setTrailerSource(String source) {this.trailerSource = source; }
+
+    public String getTrailerSource() { return trailerSource; }
 }
