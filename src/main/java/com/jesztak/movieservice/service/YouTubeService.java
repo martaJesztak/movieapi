@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -16,7 +17,7 @@ public class YouTubeService {
     private String apikey;
 
 
-    public void addMovieTrailerInfo(Movie movie) {
+    public void addMovieTrailerInfo(Movie movie) throws RestClientException {
         String URI = "https://www.googleapis.com/youtube/v3/search?key=%s&part=%s&maxresults=%s&q=%s";
         String partValue = "snippet";
         int maxresult = 1;

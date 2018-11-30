@@ -5,8 +5,10 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.UnknownHostException;
 import java.util.Arrays;
 
 @Service
@@ -17,7 +19,10 @@ public class OMDBService {
     private String URI = "http://www.omdbapi.com/?apikey=";
     private String titleParamKey = "&t=";
 
-    public Movie findMovieByTitle(String titleSearchValue) {
+    public Movie findMovieByTitle(String titleSearchValue) throws RestClientException {
+
+        Movie movie = new Movie();
+
         String searchURI = URI + apikey + titleParamKey + titleSearchValue;
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -27,7 +32,6 @@ public class OMDBService {
         ResponseEntity<String> result = restTemplate.exchange(searchURI, HttpMethod.GET, entity, String.class);
 
         JSONObject jsonObject = new JSONObject(result.getBody());
-        Movie movie = new Movie();
         movie.setTitle(jsonObject.getString("Title"));
         movie.setDirector(jsonObject.getString("Director"));
         movie.setActors(jsonObject.getString("Actors"));

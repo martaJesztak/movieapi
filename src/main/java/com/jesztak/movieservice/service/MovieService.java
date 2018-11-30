@@ -3,6 +3,8 @@ package com.jesztak.movieservice.service;
 import com.jesztak.movieservice.model.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+
 
 @Service
 public class MovieService {
@@ -13,7 +15,7 @@ public class MovieService {
     @Autowired
     YouTubeService youTubeService;
 
-    public Movie findMovieTrailerByTitle(String title) {
+    public Movie findMovieTrailerByTitle (String title) throws RestClientException {
         Movie movie = omdbService.findMovieByTitle(title);
         youTubeService.addMovieTrailerInfo(movie);
         return movie;

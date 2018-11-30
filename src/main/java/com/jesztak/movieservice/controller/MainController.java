@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 
 @Controller
 public class MainController {
@@ -18,7 +19,12 @@ public class MainController {
 
     @PostMapping("/")
     public String searchMovieTrailer(Model model, @RequestParam("search") String searchPhrase){
-        model.addAttribute("movie",movieService.findMovieTrailerByTitle(searchPhrase));
-        return "index";
+        try {
+            model.addAttribute("movie", movieService.findMovieTrailerByTitle(searchPhrase));
+            return "index";
+        } catch (RestClientException e) {
+            return "error";
+        }
+
     }
 }
