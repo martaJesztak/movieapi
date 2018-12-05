@@ -12,6 +12,7 @@ import java.util.List;
 
 @Controller
 public class MainController {
+
     @Autowired
     MovieService movieService;
 
@@ -31,6 +32,5 @@ public class MainController {
         } catch (RestClientException e) {
             return "error";
         }
-
     }
 }
