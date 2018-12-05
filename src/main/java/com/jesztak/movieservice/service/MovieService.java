@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class MovieService {
@@ -17,7 +20,28 @@ public class MovieService {
 
     public Movie findMovieTrailerByTitle (String title) throws RestClientException {
         Movie movie = omdbService.findMovieByTitle(title);
-        youTubeService.addMovieTrailerInfo(movie);
-        return movie;
+        movie.setTrailerSource(youTubeService.findMovieTrailerInfo(movie.getTitle()));
+        if (movie.getTrailerSource()!= null) {
+            return movie;
+        } else {
+            return null;
+        }
+    }
+
+    public List<Movie> findMovieTrailersByTitle (String title) throws RestClientException {
+        String[] movieTitles = omdbService.searchMovieTitles(title);
+        if (movieTitles!=null) {
+            List<Movie> movies = new ArrayList<>();
+            for (String movieTitle: movieTitles) {
+                Movie movie = findMovieTrailerByTitle(movieTitle);
+                if (movie != null) {
+                    movies.add(movie);
+                }
+            }
+            return movies;
+        } else {
+            return null;
+        }
+
     }
 }
