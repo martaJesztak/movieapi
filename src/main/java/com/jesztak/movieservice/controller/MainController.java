@@ -22,9 +22,9 @@ public class MainController {
     }
 
     @PostMapping("/")
-    public String searchMovieTrailer(Model model, @RequestParam("search") String searchPhrase){
+    public String searchMovieTrailers(Model model, @RequestParam("search") String searchPhrase){
         try {
-            List<Movie> movies = movieService.findMovieTrailersByTitle(searchPhrase);
+            List<Movie> movies = movieService.findMoviesByTitle(searchPhrase);
             if (movies!=null) {
                 model.addAttribute("movies", movies);
             }

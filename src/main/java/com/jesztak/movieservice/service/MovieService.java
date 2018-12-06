@@ -18,7 +18,7 @@ public class MovieService {
     @Autowired
     YouTubeService youTubeService;
 
-    public Movie findMovieTrailerByTitle (String title) throws RestClientException {
+    public Movie findMovieDeatailsByTitle(String title) throws RestClientException {
         Movie movie = omdbService.findMovieByTitle(title);
         movie.setTrailerSource(youTubeService.findMovieTrailerInfo(movie.getTitle()));
         if (movie.getTrailerSource()!= null) {
@@ -28,12 +28,12 @@ public class MovieService {
         }
     }
 
-    public List<Movie> findMovieTrailersByTitle (String title) throws RestClientException {
+    public List<Movie> findMoviesByTitle(String title) throws RestClientException {
         String[] movieTitles = omdbService.searchMovieTitles(title);
         if (movieTitles!=null) {
             List<Movie> movies = new ArrayList<>();
             for (String movieTitle: movieTitles) {
-                Movie movie = findMovieTrailerByTitle(movieTitle);
+                Movie movie = findMovieDeatailsByTitle(movieTitle);
                 if (movie != null) {
                     movies.add(movie);
                 }
